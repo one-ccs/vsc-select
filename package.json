@@ -1,7 +1,7 @@
 {
     "name": "vsc-select",
     "displayName": "VSC Select",
-    "description": "VS Code 插件：快速选择 ''、\"\"、()、[]、{} \"\"\"\"\"\" 之间的文本",
+    "description": "VS Code 插件：用于快速选择 ''、\"\"、()、[]、{} \"\"\"\"\"\" 之间的文本。",
     "version": "0.0.1",
     "publisher": "one-ccs",
     "icon": "icon.png",
@@ -49,7 +49,11 @@
       "watch": "tsc -watch -p ./",
       "pretest": "npm run compile && npm run lint",
       "lint": "eslint src",
-      "test": "vscode-test"
+      "test": "vscode-test",
+      "package": "vsce package",
+      "publish:major": "vsce publish major",
+      "publish:minor": "vsce publish minor",
+      "publish:patch": "vsce publish patch"
     },
     "devDependencies": {
       "@types/vscode": "^1.93.0",
