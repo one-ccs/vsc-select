@@ -8,9 +8,11 @@ const brackets = [
 ];
 const quotes = ['"', "'", "`"];
 const multipleQuotes = ['"""'];
-const selectionHistory = [];
+let selectionHistory: Array<readonly vscode.Selection[]> = [];
+
 
 vscode.window.onDidChangeActiveTextEditor(() => { selectionHistory.length = 0; });
+
 
 class SearchResult {
     constructor(public bracket_or_quote: string, public index: number) {}
@@ -69,6 +71,10 @@ function toVscodeSelection(start: SearchResult, end: SearchResult, includeBracke
         editor!.document.positionAt(start.index + 1),
         editor!.document.positionAt(end.index)
     );
+}
+
+function selectionLength(editor: vscode.TextEditor, selection: vscode.Selection): number {
+    return editor.document.offsetAt(selection.end) - editor.document.offsetAt(selection.start);
 }
 
 function findForward(text: string, index: number): SearchResult | null {
@@ -187,7 +193,7 @@ function selectText(selection: vscode.Selection): { start: SearchResult | null, 
 
 function expandSelection(includeBracket: boolean): void {
     const editor = vscode.window.activeTextEditor;
-    let originSelections = editor!.selections;
+    const originSelections = editor!.selections;
     let selections = originSelections.map((originSelection) => {
         const selectResult = selectText(originSelection);
 
@@ -196,13 +202,33 @@ function expandSelection(includeBracket: boolean): void {
            : originSelection;
     });
 
-    console.log(selections);
+    const haveChanged = selections.some((selection, index) => {
+        return !selection.isEqual(originSelections[index]);
+    });
 
-    editor!.selections = selections;
+    if (haveChanged) {
+        if (selectionHistory.length > 0) {
+            const lastSelections = selectionHistory[selectionHistory.length - 1];
+
+            if (lastSelections.length !== selections.length
+                || lastSelections.some((selection, index) =>
+                    selectionLength(editor!, selection) > selectionLength(editor!, selections[index]))
+            ) {
+                selectionHistory.length = 0;
+            }
+        }
+        selectionHistory.push(originSelections);
+        editor!.selections = selections;
+    }
 }
 
-
 function shrinkSelection() {
+    const editor = vscode.window.activeTextEditor;
+    const lastSelections = selectionHistory.pop();
+
+    if (lastSelections) {
+        editor!.selections = lastSelections;
+    }
 }
 
 
