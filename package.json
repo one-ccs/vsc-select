@@ -2,78 +2,78 @@
     "name": "vsc-select",
     "displayName": "VSC Select",
     "description": "VS Code 插件：用于快速选择 ''、\"\"、()、[]、{} \"\"\"\"\"\" 之间的文本。",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "publisher": "one-ccs",
     "icon": "icon.png",
     "engines": {
-      "vscode": "^1.93.0"
+        "vscode": "^1.93.0"
     },
     "repository": {
-      "type": "git",
-      "url": "https://github.com/one-ccs/vsc-select.git"
+        "type": "git",
+        "url": "https://github.com/one-ccs/vsc-select.git"
     },
     "categories": [
-      "Other"
+        "Other"
     ],
     "activationEvents": [],
     "main": "./out/extension.js",
     "contributes": {
-      "commands": [
-          {
-              "command": "vsc-select.expand-select",
-              "title": "VSCS:ExpandSelect"
-          },
-          {
-              "command": "vsc-select.shrink-select",
-              "title": "VSCS:ShrinkSelect"
-          },
-          {
-            "command": "vsc-select.expand-include-select",
-            "title": "VSCS:ExpandIncludeSelect"
-        }
-      ],
-      "keybindings": [
-          {
-              "command": "vsc-select.expand-select",
-              "key": "ctrl+shift+a",
-              "mac": "ctrl+shift+a",
-              "when": "editorTextFocus"
-          },
-          {
-              "command": "vsc-select.shrink-select",
-              "key": "ctrl+shift+z",
-              "mac": "ctrl+shift+z",
-              "when": "editorTextFocus"
-          },
-          {
-              "command": "vsc-select.expand-include-select",
-              "key": "ctrl+alt+a",
-              "mac": "ctrl+alt+a",
-              "when": "editorTextFocus"
-          }
-      ]
+        "commands": [
+            {
+                "command": "vsc-select.expand-select",
+                "title": "VSCS:ExpandSelect"
+            },
+            {
+                "command": "vsc-select.shrink-select",
+                "title": "VSCS:ShrinkSelect"
+            },
+            {
+                "command": "vsc-select.expand-include-select",
+                "title": "VSCS:ExpandIncludeSelect"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "vsc-select.expand-select",
+                "key": "ctrl+shift+a",
+                "mac": "ctrl+shift+a",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "vsc-select.shrink-select",
+                "key": "ctrl+shift+z",
+                "mac": "ctrl+shift+z",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "vsc-select.expand-include-select",
+                "key": "ctrl+alt+a",
+                "mac": "ctrl+alt+a",
+                "when": "editorTextFocus"
+            }
+        ]
     },
     "scripts": {
-      "vscode:prepublish": "npm run compile",
-      "compile": "tsc -p ./",
-      "watch": "tsc -watch -p ./",
-      "pretest": "npm run compile && npm run lint",
-      "lint": "eslint src",
-      "test": "vscode-test",
-      "package": "vsce package",
-      "publish:major": "vsce publish major",
-      "publish:minor": "vsce publish minor",
-      "publish:patch": "vsce publish patch"
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src",
+        "test": "vscode-test",
+        "package": "vsce package",
+        "publish:major": "vsce publish major",
+        "publish:minor": "vsce publish minor",
+        "publish:patch": "vsce publish patch"
     },
     "devDependencies": {
-      "@types/vscode": "^1.93.0",
-      "@types/mocha": "^10.0.7",
-      "@types/node": "20.x",
-      "@typescript-eslint/eslint-plugin": "^8.3.0",
-      "@typescript-eslint/parser": "^8.3.0",
-      "eslint": "^9.9.1",
-      "typescript": "^5.5.4",
-      "@vscode/test-cli": "^0.0.10",
-      "@vscode/test-electron": "^2.4.1"
+        "@types/vscode": "^1.93.0",
+        "@types/mocha": "^10.0.7",
+        "@types/node": "20.x",
+        "@typescript-eslint/eslint-plugin": "^8.3.0",
+        "@typescript-eslint/parser": "^8.3.0",
+        "eslint": "^9.9.1",
+        "typescript": "^5.5.4",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1"
     }
-  }
+}
