@@ -26,7 +26,11 @@
           {
               "command": "vsc-select.shrink-select",
               "title": "VSCS:ShrinkSelect"
-          }
+          },
+          {
+            "command": "vsc-select.expand-include-select",
+            "title": "VSCS:ExpandIncludeSelect"
+        }
       ],
       "keybindings": [
           {
@@ -39,6 +43,12 @@
               "command": "vsc-select.shrink-select",
               "key": "ctrl+shift+z",
               "mac": "ctrl+shift+z",
+              "when": "editorTextFocus"
+          },
+          {
+              "command": "vsc-select.expand-include-select",
+              "key": "ctrl+alt+a",
+              "mac": "ctrl+alt+a",
               "when": "editorTextFocus"
           }
       ]

@@ -57,8 +57,13 @@ function showInfo(message: string): void {
     vscode.window.showInformationMessage(message);
 }
 
-function toVscodeSelection(start: SearchResult, end: SearchResult): vscode.Selection {
+function toVscodeSelection(start: SearchResult, end: SearchResult, includeBracket: boolean): vscode.Selection {
     const editor = vscode.window.activeTextEditor;
+
+    if (includeBracket) {
+        start.index -= start.bracket_or_quote.length;
+        end.index += end.bracket_or_quote.length;
+    }
 
     return new vscode.Selection(
         editor!.document.positionAt(start.index + 1),
@@ -131,12 +136,22 @@ function findBackward(text: string, index: number): SearchResult | null {
     return null;
 }
 
-function selectText(selection: vscode.Selection): { start: SearchResult | null, end: SearchResult | null } {
+function getSearchContext(selection: vscode.Selection): { text: string, start: number, end: number } {
     const editor = vscode.window.activeTextEditor;
 
     const text = editor!.document.getText();
-    const start = editor!.document.offsetAt(selection.start);
+    const start = editor!.document.offsetAt(selection.start) - 1;
     const end = editor!.document.offsetAt(selection.end);
+
+    return { text, start, end };
+}
+
+function selectText(selection: vscode.Selection): { start: SearchResult | null, end: SearchResult | null } {
+    const { text, start, end } = getSearchContext(selection);
+
+    if (start < 0 || end > text.length) {
+        return { start: null, end: null };
+    }
 
     let forwardResult = findForward(text, start);
     let backwardResult = findBackward(text, end);
@@ -161,18 +176,23 @@ function selectText(selection: vscode.Selection): { start: SearchResult | null, 
         showInfo('没有找到匹配的括号');
         return { start: null, end: null };
     }
+    if (forwardResult?.index === start && backwardResult?.index === end) {
+        forwardResult.index--;
+        backwardResult.index++;
+        return { start: forwardResult, end: backwardResult };
+    }
 
     return { start: forwardResult, end: backwardResult };
 }
 
-function expandSelection() {
+function expandSelection(includeBracket: boolean): void {
     const editor = vscode.window.activeTextEditor;
     let originSelections = editor!.selections;
     let selections = originSelections.map((originSelection) => {
         const selectResult = selectText(originSelection);
 
         return (selectResult.start !== null && selectResult.end !== null)
-           ? toVscodeSelection(selectResult.start, selectResult.end)
+           ? toVscodeSelection(selectResult.start, selectResult.end, includeBracket)
            : originSelection;
     });
 
@@ -191,7 +211,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand(
             'vsc-select.expand-select',
             () => {
-		        expandSelection();
+		        expandSelection(false);
 	        },
         ),
         vscode.commands.registerCommand(
@@ -199,6 +219,12 @@ export function activate(context: vscode.ExtensionContext) {
             () => {
                 shrinkSelection();
 	        },
+        ),
+        vscode.commands.registerCommand(
+            'vsc-select.expand-include-select',
+            () => {
+                expandSelection(true);
+            },
         ),
     );
 }
