@@ -2,7 +2,7 @@
     "name": "vsc-select",
     "displayName": "VSC Select",
     "description": "VS Code 插件：用于快速选择 ''、\"\"、()、[]、{} \"\"\"\"\"\" 之间的文本。",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "publisher": "one-ccs",
     "icon": "icon.png",
     "engines": {
