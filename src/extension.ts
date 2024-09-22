@@ -182,7 +182,7 @@ function selectText(selection: vscode.Selection): { forwardResult: SearchResult 
         forwardResult !== null
         && backwardResult !== null
         && !isMatch(forwardResult.bracket_or_quote, backwardResult.bracket_or_quote)
-        && isQuote(backwardResult.bracket_or_quote)
+        && isQuote(forwardResult.bracket_or_quote)
     ) {
         forwardResult = findForward(text, forwardResult.index - forwardResult.bracket_or_quote.length);
     }
@@ -191,7 +191,7 @@ function selectText(selection: vscode.Selection): { forwardResult: SearchResult 
         backwardResult !== null
         && forwardResult !== null
         && !isMatch(forwardResult.bracket_or_quote, backwardResult.bracket_or_quote)
-        && isQuote(forwardResult.bracket_or_quote)
+        && isQuote(backwardResult.bracket_or_quote)
     ) {
         backwardResult = findBackward(text, backwardResult.index + backwardResult.bracket_or_quote.length);
     }
