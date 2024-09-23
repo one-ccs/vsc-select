@@ -2,7 +2,7 @@
     "name": "vsc-select",
     "displayName": "VSC Select",
     "description": "VS Code 插件：用于快速选择 ''、\"\"、()、[]、{} \"\"\"\"\"\" 之间的文本。",
-    "version": "0.2.3",
+    "version": "0.3.0",
     "publisher": "one-ccs",
     "icon": "icon.png",
     "engines": {
@@ -51,7 +51,47 @@
                 "mac": "ctrl+alt+a",
                 "when": "editorTextFocus"
             }
-        ]
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "VSC Select",
+            "properties": {
+                "vsc-select.brackets": {
+                    "type": "array",
+                    "default": [
+                        [
+                            "(",
+                            ")"
+                        ],
+                        [
+                            "[",
+                            "]"
+                        ],
+                        [
+                            "{",
+                            "}"
+                        ]
+                    ],
+                    "description": "要匹配的括号列表， 默认：[['(', ')'], ['[', ']'], ['{', '}']]"
+                },
+                "vsc-select.quotes": {
+                    "type": "array",
+                    "default": [
+                        "\"",
+                        "'",
+                        "`"
+                    ],
+                    "description": "要匹配的引号列表，默认：[\"\"\", \"'\", \"`\"]"
+                },
+                "vsc-select.multipleQuotes": {
+                    "type": "array",
+                    "default": [
+                        "\"\"\""
+                    ],
+                    "description": "要匹配的多引号列表，默认：['\"\"\"']"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

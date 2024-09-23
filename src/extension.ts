@@ -1,15 +1,15 @@
 import * as vscode from 'vscode';
 
 
-const brackets = [
-    ['(', ')'],
-    ['[', ']'],
-    ['{', '}'],
-];
-const quotes = ['"', "'", "`"];
-const multipleQuotes = ['"""'];
-let selectionHistory: Array<readonly vscode.Selection[]> = [];
+interface Config extends vscode.WorkspaceConfiguration {
+    brackets: Array<[string, string]>;
+    quotes: Array<string>;
+    multipleQuotes: Array<string>;
+};
 
+const config = vscode.workspace.getConfiguration('vsc-select') as Config;
+const { brackets, quotes, multipleQuotes } = config;
+const selectionHistory: Array<readonly vscode.Selection[]> = [];
 
 vscode.window.onDidChangeActiveTextEditor(() => { selectionHistory.length = 0; });
 
@@ -216,7 +216,7 @@ function selectText(selection: vscode.Selection): { forwardResult: SearchResult 
 function expandSelection(includeBracket: boolean): void {
     const editor = vscode.window.activeTextEditor;
     const originSelections = editor!.selections;
-    let selections = originSelections.map((originSelection) => {
+    const selections = originSelections.map((originSelection) => {
         const selectResult = selectText(originSelection);
 
         return (selectResult.forwardResult !== null && selectResult.backwardResult !== null)

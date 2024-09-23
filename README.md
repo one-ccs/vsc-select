@@ -8,6 +8,7 @@ VS Code 插件：用于快速选择 ''、\"\"、()、[]、{} \"\"\"\"\"\" 之间
 
 - 用命令 `VSCS:ExpandSelect ` 或快捷键 `ctrl+shift+a` 扩大选择
 - 用命令 `VSCS:ShrinkSelect` 或快捷键 `ctrl+shift+z` 收缩选择
+- 用命令 `VSCS:ExpandIncludeSelect` 或快捷键 `ctrl+alt+a` 扩大选择并包含括号
 
 ## 依赖
 
